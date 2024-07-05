@@ -6,7 +6,7 @@ interface CardCategoriaProps {
 categoria: Categoria
 }
 
-function CardCategoria({categoria}: CardCategoriaProps) {
+function CardCategorias({categoria}: CardCategoriaProps) {
   return (
     <div className="border-2 border-black rounded-xl overflow-hidden">
       <h3 className="text-xl font-bold bg-red-600 text-white px-2 py-1">Categoria</h3>
@@ -24,4 +24,4 @@ function CardCategoria({categoria}: CardCategoriaProps) {
   )
 }
 
-export default CardCategoria
+export default CardCategorias

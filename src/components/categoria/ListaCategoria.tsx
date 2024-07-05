@@ -1,42 +1,54 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import Categoria from '../../models/Categoria';
 import { buscar } from '../../service/Service';
-import CardCategoria from './cardCategorias';
+import Categoria from '../../models/Categoria';
+import CardCategorias from './CardCategorias';
 
-function ListaCategorias() {
-  //local para armazenar os temas
-  const [categoria, setCategoria] = useState<Categoria[]>([])
 
-  //função pra ir no backend e pedir os temas
-  async function buscarCategoria(){
+function ListaCategoria() {
+
+const [categoria, setCategoria] = useState<Categoria[]>([]);
+
+
+
+const navigate = useNavigate();
+
+
+async function buscarCategoria() {
     try {
-      await buscar('/categorias', setCategoria, 
-      );
-    } catch (error) {
-      alert('Deu ruim')
-      console.log(error);
+    await buscar('/categorias', setCategoria);
+
+
+    } catch (error: any) {
+    if (error.toString().includes('403')) {
+        alert('O token expirou, favor logar novamente')
     }
-  }
-
-  useEffect(() => {
-    buscarCategoria()
-  }, [categoria.length])
-
-  return (
-    <>
-    
-        
-
-      <div className="container mx-auto my-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categoria.map(categoria => (
-              <CardCategoria key={categoria.id} categoria={categoria} />
-          ))}
-        </div>
-      </div>
-    </>
-  );
+    }
 }
 
-export default ListaCategorias;
+useEffect(() => {
+    buscarCategoria()
+}, [categoria.length])
+    return (
+    <>
+   
+    
+    <div className="flex justify-center w-full my-4">
+        <div className="container flex flex-col mr-8 ml-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {categoria.map((categoria) => (
+            <>
+                <CardCategorias key={categoria.id} categoria={categoria} />
+            </>
+            ))}
+        </div>
+        </div>
+    </div>
+    </>
+);
+}
+
+
+export default ListaCategoria;
+
